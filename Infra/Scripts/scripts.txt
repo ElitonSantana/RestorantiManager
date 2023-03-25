@@ -1,0 +1,22 @@
+﻿=-=-=-=-=-=--=-=-==-=-=-=-==-=-=- TABELA DE REQUISIÇÕES-=-==-=-==-=-=-=--=-=-==-=-=-=-=-=-=
+
+CREATE TABLE Request(
+Id int AUTO_INCREMENT PRIMARY KEY,
+Type int NOT NULL,
+TableNumber int NULL,
+isActive bit NOT NULL,
+EmployeeId int NULL,
+CreationDate datetime NOT NULL,
+ModifiedDate datetime NULL
+); 
+
+=-=-=-=-=-=--=-=-==-=-=-=-==-=-=- TABELA DE MESAS-=-==-=-==-=-=-=--=-=-==-=-=-=-=-=-=
+
+CREATE TABLE Tables(
+Id int AUTO_INCREMENT PRIMARY KEY,
+TableNumber int NULL,
+IsAvailable bit NOT NULL,
+isActive bit NOT NULL,
+CreationDate datetime NOT NULL,
+ModifiedDate datetime NULL
+); 

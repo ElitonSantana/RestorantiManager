@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Entities.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace Infra.Context
 {
@@ -10,7 +11,8 @@ namespace Infra.Context
 
         #region DbSet's
 
-        //public DbSet<UserInternal>? UserInternals { get; set; }
+        public DbSet<Table>? Tables { get; set; }
+        public DbSet<Request>? Requests { get; set; }
 
         #endregion
 
@@ -25,7 +27,7 @@ namespace Infra.Context
         private string GetConnectionString()
         {
             //return "Server=50.116.87.218;Port=3306;Database=restor96_restoranti;Uid=restor96_admin;Pwd=TCC@unip2022";
-            return "Server=localhost;Port=3306;Database=meubanco;Uid=root;Pwd=admin";
+            return "Server=localhost;Port=3306;Database=meubancov3;Uid=root;Pwd=admin";
         }
 
     }

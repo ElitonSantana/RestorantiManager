@@ -2,6 +2,7 @@
 using Domain.Interface;
 using Entities.Entities;
 using Infra.Repository.Generics.Interface;
+using static Entities.Enums.Enumerators;
 
 namespace Domain.Services
 {
@@ -43,7 +44,6 @@ namespace Domain.Services
                 return new MessageResponse<Table> { HasError = true, Message = $"Não possível adicionar uma nova mesa - {ex.Message}" };
             }
         }
-
         public async Task<MessageResponse<List<Table>>> GetList()
         {
             try
@@ -91,7 +91,7 @@ namespace Domain.Services
                 {
                     var table = await _rTable.GetById(Id);
                     if (table != null)
-                        return new MessageResponse<Table> { Entity = table};
+                        return new MessageResponse<Table> { Entity = table };
                     else
                         return new MessageResponse<Table> { HasError = true, Message = "Mesa não encontrada!" };
                 }
@@ -106,7 +106,6 @@ namespace Domain.Services
             }
 
         }
-        
         public async Task<MessageResponse<Table>> BookATable(Request request)
         {
             try
@@ -149,6 +148,56 @@ namespace Domain.Services
             catch (Exception ex)
             {
                 return new MessageResponse<Table> { HasError = true, Message = $"Não possível realizar a reserva da mesa - {ex.Message}" };
+            }
+        }
+        public async Task<MessageResponse<Request>> RequestService(int TableNumber, int Type)
+        {
+            try
+            {
+                var tableExistent = await _rTable.GetByTableNumber(TableNumber);
+                if (tableExistent != null)
+                {
+
+                    ERequestType eType = (ERequestType)Type;
+                    MessageResponse<Request> response = new MessageResponse<Request>();
+
+                    switch (eType)
+                    {
+                        case ERequestType.None:
+                            return new MessageResponse<Request> { HasError = true, Message = $"Nenhum serviço está relacionado ao tipo 0." };
+                        case ERequestType.MakeAOrder:
+                            var makeOrderexistent = await _rTable.GetMakeOrderActive(TableNumber);
+                            if (makeOrderexistent == null)
+                                response = await _rTable.CreateMakeOrder(TableNumber);
+                            else
+                                response = await _rTable.CancelMakeOrder(makeOrderexistent.Entity);
+                            return response;
+                        case ERequestType.Help:
+                            var HelpExistent = await _rTable.GetHelpActive(TableNumber);
+                            if (HelpExistent == null)
+                                response = await _rTable.CreateHelp(TableNumber);
+                            else
+                                response = await _rTable.CancelHelp(HelpExistent.Entity);
+                            return response;
+                        case ERequestType.CloseAccount:
+                            var CloseAccountExistent = await _rTable.GetCloseAccountActive(TableNumber);
+                            if (CloseAccountExistent == null)
+                                response = await _rTable.CreateCloseAccount(TableNumber);
+                            else
+                                response = await _rTable.CancelCloseAccount(CloseAccountExistent.Entity);
+                            return response;
+                        default:
+                            return new MessageResponse<Request> { HasError = true, Message = $"Tipo de requisição não encontrada." };
+                    }
+                }
+                else
+                {
+                    return new MessageResponse<Request> { HasError = true, Message = $"Nenhuma mesa ativa foi encontrada para o número {TableNumber}" };
+                }
+            }
+            catch (Exception ex)
+            {
+                return new MessageResponse<Request> { HasError = true, Message = $"Não possível realizar a requisição de serviço - RequestService - {ex.Message}" };
             }
         }
 

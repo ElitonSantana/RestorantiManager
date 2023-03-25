@@ -16,7 +16,7 @@ namespace RestorantiManager.Controllers
         {
             this._tableService = tableService;
         }
-
+        
         #region :: Reservas ::
 
         [Route("BookATable/{TableNumber}/{Type}")]
@@ -139,5 +139,34 @@ namespace RestorantiManager.Controllers
 
         #endregion
 
+        #region :: Requisições ::
+
+        //Rota para fazer todas as solicitações de serviços.
+        [Route("Request/{TableNumber}/{Type}")]
+        [HttpGet]
+        public async Task<IActionResult> RequestService(int TableNumber, int Type)
+        {
+            if (ModelState.IsValid)
+            {
+                var eType = (ERequestType)Type;
+
+                if (eType == ERequestType.None)
+                    return BadRequest("Tipo de requisição inválida.");
+
+                if (TableNumber == 0)
+                    return BadRequest("Número da mesa não foi informado.");
+
+                var result = await _tableService.RequestService(TableNumber, Type);
+
+                if (result.HasError)
+                    return BadRequest(result.Message);
+
+                return Ok(result.Message);
+            }
+            else
+                return BadRequest("Model is not valid!");
+        }
+
+        #endregion
     }
 }

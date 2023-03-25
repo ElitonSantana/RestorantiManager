@@ -25,7 +25,12 @@ namespace Entities.Enums
             /// <summary>
             /// Pedir ajuda;
             /// </summary>
-            Help = 30
+            Help = 30,
+            /// <summary>
+            /// Fechar a conta;
+            /// </summary>
+            CloseAccount = 40
+
         }
     }
 }

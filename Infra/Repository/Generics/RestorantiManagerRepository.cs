@@ -51,6 +51,7 @@ namespace Infra.Repository.Generics
                 }
             }
         }
+        
 
         public async Task<List<T>> GetList()
         {
