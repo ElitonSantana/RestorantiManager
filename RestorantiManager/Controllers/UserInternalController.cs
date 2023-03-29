@@ -74,9 +74,9 @@ namespace RestorantiManager.Controllers
             }
         }
 
-        [Route("Delete")]
+        [Route("Delete/{Id}")]
         [HttpDelete]
-        public async Task<IActionResult> Delete([FromBody] int Id)
+        public async Task<IActionResult> Delete(int Id)
         {
             if (ModelState.IsValid)
             {
