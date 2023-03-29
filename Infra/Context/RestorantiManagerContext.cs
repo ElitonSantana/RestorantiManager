@@ -13,6 +13,7 @@ namespace Infra.Context
 
         public DbSet<Table>? Tables { get; set; }
         public DbSet<Request>? Requests { get; set; }
+        public DbSet<UserInternal>? UserInternals { get; set; }
 
         #endregion
 

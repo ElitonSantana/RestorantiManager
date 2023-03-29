@@ -43,9 +43,11 @@ void ConfigureRepositories()
 {
     builder.Services.AddSingleton(typeof(IRestorantiRepositoryGeneric<>), typeof(RestorantiManagerRepository<>));
     builder.Services.AddSingleton<IRTable, RTable>();
+    builder.Services.AddSingleton<IRUserInternal, RUserInternal>();
 }
 
 void ConfigureServices()
 {
     builder.Services.AddSingleton<ITableService, TableService>();
+    builder.Services.AddSingleton<IUserInternalService, UserInternalService>();
 }
