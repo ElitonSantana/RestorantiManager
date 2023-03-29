@@ -178,7 +178,7 @@ namespace RestorantiManager.Controllers
                 if (result.HasError)
                     return BadRequest(result.Message);
 
-                return Ok(result.Message);
+                return Ok(result);
             }
             else
                 return BadRequest("Model is not valid!");
