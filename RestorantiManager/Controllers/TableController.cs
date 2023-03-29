@@ -167,6 +167,23 @@ namespace RestorantiManager.Controllers
                 return BadRequest("Model is not valid!");
         }
 
+        [Route("Request/GetList")]
+        [HttpGet]
+        public async Task<IActionResult> RequestGetList()
+        {
+            if (ModelState.IsValid)
+            {
+                var result = await _tableService.RequestGetList();
+
+                if (result.HasError)
+                    return BadRequest(result.Message);
+
+                return Ok(result.Message);
+            }
+            else
+                return BadRequest("Model is not valid!");
+        }
+
         #endregion
     }
 }

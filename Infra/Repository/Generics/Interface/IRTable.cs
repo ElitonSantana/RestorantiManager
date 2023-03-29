@@ -6,7 +6,9 @@ namespace Infra.Repository.Generics.Interface
     public interface IRTable : IRestorantiRepositoryGeneric<Table>
     {
 
-        Task<Table> GetByTableNumber(int TableNumber);  
+        Task<Table> GetByTableNumber(int TableNumber);
+        Task<MessageResponse<List<Request>>> RequestGetList(); 
+
 
         #region ::Make Order::
         Task<MessageResponse<Request>> GetMakeOrderActive(int TableNumber);

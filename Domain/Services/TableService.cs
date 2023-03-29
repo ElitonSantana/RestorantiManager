@@ -200,6 +200,18 @@ namespace Domain.Services
                 return new MessageResponse<Request> { HasError = true, Message = $"Não possível realizar a requisição de serviço - RequestService - {ex.Message}" };
             }
         }
+        public async Task<MessageResponse<List<Request>>> RequestGetList()
+        {
+            try
+            {
+                var entityList = await _rTable.RequestGetList();
+                return entityList;
+            }
+            catch (Exception ex)
+            {
+                return new MessageResponse<List<Request>> { HasError = true, Message = $"Ocorreu um problema ao tentar buscar a lista de requisições de serviço. Ex: {ex.Message}" };
+            }
+        }
 
     }
 }

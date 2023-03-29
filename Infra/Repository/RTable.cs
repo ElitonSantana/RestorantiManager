@@ -39,12 +39,13 @@ namespace Infra.Repository
         {
             using (var data = new RestorantiManagerContext(_optionsBuilder))
             {
-                var request = new Request {
+                var request = new Request
+                {
                     TableNumber = TableNumber,
                     Type = ERequestType.MakeAOrder,
                     isActive = true
                 };
-                
+
                 AddModelBase(request);
 
                 var result = data.AddAsync(request);
@@ -64,7 +65,7 @@ namespace Infra.Repository
                 var makeOrderExistent = data.Set<Request>().Where(x => x.TableNumber == TableNumber && x.isActive == true && x.Type == ERequestType.MakeAOrder).FirstOrDefault();
 
                 if (makeOrderExistent != null)
-                    return new MessageResponse<Request> { Entity = makeOrderExistent};
+                    return new MessageResponse<Request> { Entity = makeOrderExistent };
                 else
                     return null;
             }
@@ -190,6 +191,28 @@ namespace Infra.Repository
 
         #endregion
 
+
+        public async Task<MessageResponse<List<Request>>> RequestGetList()
+        {
+            using (var data = new RestorantiManagerContext(_optionsBuilder))
+            {
+                var result = await data.Set<Request>().ToListAsync();
+
+                if (result != null)
+                {
+                    result = result.Where(x => x.isActive == true).ToList();
+
+                    if (result.Count > 0)
+                        return new MessageResponse<List<Request>> { HasError = false, Entity = result, Message = "Mesas encontradas com sucesso." };
+                    else
+                        return new MessageResponse<List<Request>> { HasError = true, Message = "Não foi encontrada nenhuma mesa ativa." };
+                }
+                else
+                {
+                    return new MessageResponse<List<Request>> { HasError = true, Message = "Não foi encontrada nenhuma mesa ativa. - null" };
+                }
+            }
+        }
         public async Task<Table> GetByTableNumber(int TableNumber)
         {
             using (var data = new RestorantiManagerContext(_optionsBuilder))
@@ -198,7 +221,7 @@ namespace Infra.Repository
 
                 if (result != null)
                 {
-                    return result.Where(x=>x.TableNumber == TableNumber && x.IsActive == true).FirstOrDefault();
+                    return result.Where(x => x.TableNumber == TableNumber && x.IsActive == true).FirstOrDefault();
                 }
                 else
                 {

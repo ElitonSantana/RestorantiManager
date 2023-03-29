@@ -15,5 +15,7 @@ namespace Domain.Interface
         Task<MessageResponse<Table>> BookATable(Request request);
         Task<MessageResponse<Table>> GetTableById(int Id);
         Task<MessageResponse<Request>> RequestService(int TableNumber, int Type);
+        Task<MessageResponse<List<Request>>> RequestGetList();
+        
     }
 }
