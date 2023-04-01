@@ -31,6 +31,18 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+#region [Cors]
+builder.Services.AddCors();
+#endregion
+#region [Cors]
+app.UseCors(c =>
+{
+    c.AllowAnyHeader();
+    c.AllowAnyMethod();
+    c.AllowAnyOrigin();
+});
+#endregion
+
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
