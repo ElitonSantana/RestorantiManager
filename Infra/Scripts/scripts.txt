@@ -24,7 +24,7 @@ ModifiedDate datetime NULL
 =-=-=-=-=-=--=-=-==-=-=-=-==-=-=- TABELA DE USUÁRIOS INTERNOS-=-==-=-==-=-=-=--=-=-==-=-=-=-=-=-=
 
 CREATE TABLE UserInternal(
-Id int AUTO_INCREMENT PRIMARY KEY,
+EmployeeId int AUTO_INCREMENT PRIMARY KEY,
 Name varchar(100) NOT NULL,
 Phone varchar(15) NULL,
 Email varchar(50) NOT NULL,

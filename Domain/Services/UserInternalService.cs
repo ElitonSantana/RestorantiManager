@@ -39,13 +39,14 @@ namespace Domain.Services
                 {
                     //Validaçãó para um create antes de encaminhar para a repository
                     var hasAdded = await _rUserInternal.CreateAsync(user);
+                    var userAdd = await _rUserInternal.GetByUsername(user);
 
                     //Caso for chamado a partir dos testes unitários.
                     if (isTest)
                         hasAdded = true;
 
                     if (hasAdded)
-                        return new MessageResponse<UserInternal> { HasError = false, Entity = existentUser, Message = "Usuário criado com sucesso!" };
+                        return new MessageResponse<UserInternal> { HasError = false, Entity = userAdd, Message = "Usuário criado com sucesso!" };
                     else
                         return new MessageResponse<UserInternal> { HasError = true, Message = "Não foi possível criar um novo usuário! Favor verificar." };
                 }
@@ -136,12 +137,26 @@ namespace Domain.Services
                 return new MessageResponse<UserInternal> { HasError = true, Message = "Ocorreu um erro técnico ao realizar o delete do usuário, verificar. Exception: {ex.Message}  StackTrace: {ex.StackTrace}" };
             }
         }
-        
 
-        public async Task<List<UserInternal>> List()
+
+        public async Task<MessageResponse<List<UserInternal>>> List()
         {
-            List<UserInternal> result = await _rUserInternal.GetList();
-            return result;
+            try
+            {
+                List<UserInternal> result = await _rUserInternal.GetList();
+                if (result.Count > 0)
+                {
+                    return new MessageResponse<List<UserInternal>> { HasError = false, Entity = result};
+                }
+                else
+                    return new MessageResponse<List<UserInternal>> { HasError = true, Message = "Nenhum usuário encontrado!" };
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Ocorreu um erro técnico ao retornar a lista de usuários, verificar. Exception: {ex.Message}  StackTrace: {ex.StackTrace}");
+                return new MessageResponse<List<UserInternal>> { HasError = true, Message = "Ocorreu um erro técnico ao retornar a lista de usuários, verificar. Exception: {ex.Message}  StackTrace: {ex.StackTrace}" };
+            }
+
         }
         public async Task<bool> ValidatePasswordConfirm(string password, bool isTest = false)
         {

@@ -2,6 +2,7 @@
 using Entities.Enums;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
@@ -12,7 +13,8 @@ namespace Entities.Entities
     [Table("UserInternal")]
     public class UserInternal : BaseModel
     {
-        public int Id { get; set; }
+        [Key]
+        public int EmployeeId { get; set; }
 
         /// <summary>
         /// Nome do usuário ( administrador ou funcionário )

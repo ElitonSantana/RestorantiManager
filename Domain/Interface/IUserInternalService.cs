@@ -13,7 +13,7 @@ namespace Domain.Interface
         Task<MessageResponse<UserInternal>> Login(UserInternal user, bool isTest = false);
         Task<MessageResponse<UserInternal>> UpdateUser(UserInternal user);
         Task<MessageResponse<UserInternal>> DeleteUser(int Id);
-        Task<List<UserInternal>> List();
+        Task<MessageResponse<List<UserInternal>>> List();
         Task<bool> ValidatePasswordConfirm(string password, bool isTest = false);
     }
 }

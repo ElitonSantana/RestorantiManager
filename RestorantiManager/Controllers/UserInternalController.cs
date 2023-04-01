@@ -108,10 +108,10 @@ namespace RestorantiManager.Controllers
         public async Task<IActionResult> GetUsers()
         {
             var result = await _userService.List();
-            if (result?.Count > 0)
+            if (!result.HasError)
                 return Ok(result);
             else
-                return BadRequest();
+                return BadRequest(result);
         }
 
         /// <summary>
@@ -125,9 +125,12 @@ namespace RestorantiManager.Controllers
         {
             var result = _userService.ValidatePasswordConfirm(password).Result;
             if (result)
-                return Ok();
+                return Ok(result);
             else
                 return BadRequest("Senha incorreta!");
         }
+
+       
+
     }
 }

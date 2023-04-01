@@ -1,6 +1,7 @@
 ﻿
 using Domain.Interface;
 using Entities.Entities;
+using Infra.Repository;
 using Infra.Repository.Generics.Interface;
 using static Entities.Enums.Enumerators;
 
@@ -106,6 +107,32 @@ namespace Domain.Services
             }
 
         }
+        public async Task<MessageResponse<Table>> UpdateTable(Table table)
+        {
+            try
+            {
+                var tableExistent = _rTable.GetById(table.Id).Result;
+
+                if (tableExistent != null)
+                {
+                    tableExistent.TableNumber = table.TableNumber;
+                    tableExistent.IsAvailable = table.IsAvailable;
+                    tableExistent.IsActive = table.IsActive;
+                    tableExistent.ModifiedDate = DateTime.Now;
+
+                    await _rTable.Update(tableExistent);
+
+                    return new MessageResponse<Table> { HasError = false, Entity = tableExistent, Message = "Mesa atualizado com sucesso!" };
+                }
+                else
+                    return new MessageResponse<Table> { HasError = true, Message = "Erro ao encontrar uma mesa para atualizar." };
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Ocorreu um erro técnico ao realizar o update da mesa, verificar. Exception: {ex.Message}  StackTrace: {ex.StackTrace}");
+                return new MessageResponse<Table> { HasError = true, Message = "Ocorreu um erro técnico ao realizar o update da mesa, verificar. Exception: {ex.Message}  StackTrace: {ex.StackTrace}" };
+            }
+        }
         public async Task<MessageResponse<Table>> BookATable(Request request)
         {
             try
@@ -150,68 +177,7 @@ namespace Domain.Services
                 return new MessageResponse<Table> { HasError = true, Message = $"Não possível realizar a reserva da mesa - {ex.Message}" };
             }
         }
-        public async Task<MessageResponse<Request>> RequestService(int TableNumber, int Type)
-        {
-            try
-            {
-                var tableExistent = await _rTable.GetByTableNumber(TableNumber);
-                if (tableExistent != null)
-                {
-
-                    ERequestType eType = (ERequestType)Type;
-                    MessageResponse<Request> response = new MessageResponse<Request>();
-
-                    switch (eType)
-                    {
-                        case ERequestType.None:
-                            return new MessageResponse<Request> { HasError = true, Message = $"Nenhum serviço está relacionado ao tipo 0." };
-                        case ERequestType.MakeAOrder:
-                            var makeOrderexistent = await _rTable.GetMakeOrderActive(TableNumber);
-                            if (makeOrderexistent == null)
-                                response = await _rTable.CreateMakeOrder(TableNumber);
-                            else
-                                response = await _rTable.CancelMakeOrder(makeOrderexistent.Entity);
-                            return response;
-                        case ERequestType.Help:
-                            var HelpExistent = await _rTable.GetHelpActive(TableNumber);
-                            if (HelpExistent == null)
-                                response = await _rTable.CreateHelp(TableNumber);
-                            else
-                                response = await _rTable.CancelHelp(HelpExistent.Entity);
-                            return response;
-                        case ERequestType.CloseAccount:
-                            var CloseAccountExistent = await _rTable.GetCloseAccountActive(TableNumber);
-                            if (CloseAccountExistent == null)
-                                response = await _rTable.CreateCloseAccount(TableNumber);
-                            else
-                                response = await _rTable.CancelCloseAccount(CloseAccountExistent.Entity);
-                            return response;
-                        default:
-                            return new MessageResponse<Request> { HasError = true, Message = $"Tipo de requisição não encontrada." };
-                    }
-                }
-                else
-                {
-                    return new MessageResponse<Request> { HasError = true, Message = $"Nenhuma mesa ativa foi encontrada para o número {TableNumber}" };
-                }
-            }
-            catch (Exception ex)
-            {
-                return new MessageResponse<Request> { HasError = true, Message = $"Não possível realizar a requisição de serviço - RequestService - {ex.Message}" };
-            }
-        }
-        public async Task<MessageResponse<List<Request>>> RequestGetList()
-        {
-            try
-            {
-                var entityList = await _rTable.RequestGetList();
-                return entityList;
-            }
-            catch (Exception ex)
-            {
-                return new MessageResponse<List<Request>> { HasError = true, Message = $"Ocorreu um problema ao tentar buscar a lista de requisições de serviço. Ex: {ex.Message}" };
-            }
-        }
+        
 
     }
 }
