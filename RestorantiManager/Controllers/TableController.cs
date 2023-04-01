@@ -78,7 +78,7 @@ namespace RestorantiManager.Controllers
                 var result = _tableService.GetList().Result;
 
                 if (!result.HasError)
-                    return Ok(result.Entity);
+                    return Ok(result);
                 else
                     return BadRequest(result);
             }

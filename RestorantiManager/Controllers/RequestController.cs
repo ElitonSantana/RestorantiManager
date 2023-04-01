@@ -67,13 +67,13 @@ namespace RestorantiManager.Controllers
 
         #region :: Requisições - Funcionários ::
 
-        [Route("AcceptService/{UserId}/{RequestId}")]
+        [Route("AcceptService/{EmployeeId}/{RequestId}")]
         [HttpPost]
-        public async Task<IActionResult> AcceptService(int UserId, int RequestId)
+        public async Task<IActionResult> AcceptService(int EmployeeId, int RequestId)
         {
             if (ModelState.IsValid)
             {
-                var result = await _requestService.AcceptServiceAsync(UserId, RequestId);
+                var result = await _requestService.AcceptServiceAsync(EmployeeId, RequestId);
                 if (!result.HasError)
                     return Ok(result);
                 else
