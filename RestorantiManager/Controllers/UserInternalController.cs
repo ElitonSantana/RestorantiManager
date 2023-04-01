@@ -74,15 +74,15 @@ namespace RestorantiManager.Controllers
             }
         }
 
-        [Route("Delete/{Id}")]
+        [Route("Delete/{EmployeeId}")]
         [HttpDelete]
-        public async Task<IActionResult> Delete(int Id)
+        public async Task<IActionResult> Delete(int EmployeeId)
         {
             if (ModelState.IsValid)
             {
-                if (Id != 0)
+                if (EmployeeId != 0)
                 {
-                    var result = await _userService.DeleteUser(Id);
+                    var result = await _userService.DeleteUser(EmployeeId);
                     if (!result.HasError)
                         return Ok(result);
                     else
