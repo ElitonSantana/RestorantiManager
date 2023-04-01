@@ -108,6 +108,7 @@ namespace Domain.Services
                     var requestExistent = _rRequest.GetById(RequestId).Result;
                     if (requestExistent != null)
                     {
+                        requestExistent.isActive = true;
                         requestExistent.EmployeeId = EmployeeId;
                         requestExistent.ModifiedDate = DateTime.Now;
 
