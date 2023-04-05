@@ -108,6 +108,12 @@ namespace Domain.Services
                     var requestExistent = _rRequest.GetById(RequestId).Result;
                     if (requestExistent != null)
                     {
+                        if (!requestExistent.isActive && requestExistent.EmployeeId != 0)
+                            return new MessageResponse<Request> { HasError = true, Message = $"Solicitação já atendida!" };
+
+                        if (!requestExistent.isActive)
+                            return new MessageResponse<Request> { HasError = true, Message = $"A solicitação não se encontra ativa para ser atendida!" };
+
                         requestExistent.isActive = false;
                         requestExistent.EmployeeId = EmployeeId;
                         requestExistent.ModifiedDate = DateTime.Now;
