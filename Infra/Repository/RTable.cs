@@ -203,13 +203,13 @@ namespace Infra.Repository
                     result = result.Where(x => x.isActive == true).ToList();
 
                     if (result.Count > 0)
-                        return new MessageResponse<List<Request>> { HasError = false, Entity = result, Message = "Mesas encontradas com sucesso." };
+                        return new MessageResponse<List<Request>> { HasError = false, Entity = result, Message = "Solicitações encontradas com sucesso." };
                     else
-                        return new MessageResponse<List<Request>> { HasError = true, Message = "Não foi encontrada nenhuma mesa ativa." };
+                        return new MessageResponse<List<Request>> { HasError = true, Message = "Não foi encontrada nenhuma Solicitação ativa." };
                 }
                 else
                 {
-                    return new MessageResponse<List<Request>> { HasError = true, Message = "Não foi encontrada nenhuma mesa ativa. - null" };
+                    return new MessageResponse<List<Request>> { HasError = true, Message = "Não foi encontrada nenhuma Solicitação ativa. - null" };
                 }
             }
         }
