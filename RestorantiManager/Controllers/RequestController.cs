@@ -68,7 +68,7 @@ namespace RestorantiManager.Controllers
         #region :: Requisições - Funcionários ::
 
         [Route("AcceptService/{EmployeeId}/{RequestId}")]
-        [HttpPost]
+        [HttpPut]
         public async Task<IActionResult> AcceptService(int EmployeeId, int RequestId)
         {
             if (ModelState.IsValid)
