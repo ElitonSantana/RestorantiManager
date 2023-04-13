@@ -24,7 +24,9 @@ namespace Domain.Services
                     var tables = _rTable.GetList().Result;
                     if (tables.Any())
                     {
-                        var tableNumber = tables.OrderByDescending(x => x.CreationDate).ToList().FirstOrDefault().TableNumber;
+                        tables = tables.Where(x => x.IsActive).ToList();
+
+                        var tableNumber = tables.OrderByDescending(x => x.TableNumber).ToList().FirstOrDefault().TableNumber;
                         request.TableNumber = tableNumber + 1;
                     }
                     else
