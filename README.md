@@ -1,2 +1,2 @@
 # RestorantiManager
-Manager de Restaurantes
+Manager de Restaurante
