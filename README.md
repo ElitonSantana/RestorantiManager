@@ -8,3 +8,5 @@ Link: https://dotnet.microsoft.com/en-us/download/dotnet/6.0
 
 Ao clonar o repositório é necessário rodar o script no MySQL
 
+Path: RestorantiManager\Infra\Scripts\scripts.txt
+
