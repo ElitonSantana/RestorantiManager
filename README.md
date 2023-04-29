@@ -11,3 +11,8 @@ Link: https://dotnet.microsoft.com/en-us/download/dotnet/6.0
 
 Path: RestorantiManager\Infra\Scripts\scripts.txt
 
+#### Detalhes:
+- Padrão de arquitetura DDD;
+- Conceito de clean code;
+- Design Patterns Generic Response;
+
